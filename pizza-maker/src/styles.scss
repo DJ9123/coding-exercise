@@ -3,3 +3,38 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.header {
+  font-size: larger;
+}
+
+.j-center {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card-wrapper {
+  padding-top: 32px;
+  align-items: flex-start;
+
+  mat-card {
+    width: 100%;
+  }
+}
+
+.small-card {
+  max-width: 250px;
+}
+
+.medium-card {
+  max-width: 450px;
+}
+
+.large-card {
+  max-width: 600px;
+}
+
+.x-large-card {
+  max-width: 850px;
+}
