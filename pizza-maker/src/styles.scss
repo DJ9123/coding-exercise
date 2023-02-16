@@ -38,3 +38,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .x-large-card {
   max-width: 850px;
 }
+
+.full-field {
+  width: 100%;
+}
+
+.card-button {
+  display: flex;
+  flex-direction: row-reverse;
+}

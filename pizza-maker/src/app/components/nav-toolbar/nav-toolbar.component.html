@@ -1,4 +1,9 @@
 <mat-toolbar>
   <button mat-button routerLink="/orders">Orders</button>
-  <button mat-button routerLink="/login">Login</button>
+  <ng-container *ngIf="!isLoggedIn; else signOut">
+    <button mat-button routerLink="/login">Login</button>
+  </ng-container>
+  <ng-template #signOut>
+    <button mat-button (click)="logout()">Sign Out</button>
+  </ng-template>
 </mat-toolbar>
