@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/services/order.service';
 import { first } from 'rxjs/operators';
 import { OrderConfig } from 'src/app/interfaces/order-config';
+import { NotificationService } from 'src/app/services/notification.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,9 @@ export class HomeComponent {
 
   constructor(
     private orderService: OrderService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -48,10 +53,14 @@ export class HomeComponent {
       .subscribe(
         {
           next: (v) => {
-            console.log(v);
+            this.notificationService.open('Order created!');
           },
           error: (e) => {
-            console.log(e);
+            console.error(e);
+            this.notificationService.open(e.error.msg);
+            if (e.status === 401) {
+              this.router.navigate(['/login'], {queryParams: {prev: this.route.snapshot.url}});
+            }
           }
         }
       );

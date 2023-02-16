@@ -3,6 +3,8 @@ import { OrderConfig } from 'src/app/interfaces/order-config';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderService } from 'src/app/services/order.service';
 import { first } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -17,6 +19,9 @@ export class OrdersComponent {
 
   constructor(
     private orderService: OrderService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -53,9 +58,14 @@ export class OrdersComponent {
           this.filterRef.nativeElement.value = '';
           this.data = this.data.filter(x => x.Order_ID != order_id);
           this.dataSource = new MatTableDataSource(this.formatData(this.data));
+          this.notificationService.open('Successfully deleted!');
         },
         error: (e) => {
-          console.error('error', e);
+          console.error(e);
+          this.notificationService.open(e.error.msg);
+          if (e.status === 401) {
+            this.router.navigate(['/login'], {queryParams: {prev: this.route.snapshot.url}});
+          }
         }
       }
     );
