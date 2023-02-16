@@ -14,6 +14,16 @@
 
       <table mat-table [dataSource]="dataSource">
 
+        <!-- Delete Column -->
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="deleteOrder(element.Order_ID)" mat-icon-button color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <!-- Crust Column -->
         <ng-container matColumnDef="Crust">
           <th mat-header-cell *matHeaderCellDef> Crust </th>

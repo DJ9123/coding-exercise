@@ -49,4 +49,14 @@ export class OrderService {
         })
       );
   }
+
+  deleteOrder(order_id: number) {
+    return this.http.delete(`https://pizza-api-app.herokuapp.com/api/orders/${order_id}`)
+      .pipe(
+        map((data: any) => {
+          console.log(data)
+          return data;
+        })
+      );
+  }
 }
