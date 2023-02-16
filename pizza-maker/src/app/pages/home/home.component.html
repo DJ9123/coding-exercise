@@ -3,9 +3,65 @@
 <div class="card-wrapper j-center">
   <mat-card class="large-card">
     <mat-card-header>
-      <mat-card-title>Place order</mat-card-title>
+      <mat-card-title>Create Your Order!</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <form [formGroup]="configuratorForm" *ngIf="configOptions$ | async; let configOptions">
+
+        <mat-form-field class="full-field" appearance="fill">
+          <mat-label>Table Number</mat-label>
+          <mat-select formControlName="Table_No" required>
+            <mat-option *ngFor="let number of configOptions.tables" [value]="number">{{number}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="j-center">
+          <mat-form-field class="full-field" appearance="fill">
+            <mat-label>Crust</mat-label>
+            <mat-select formControlName="Crust" required>
+              <mat-option *ngFor="let crust of configOptions.crusts" [value]="crust">{{crust | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field class="full-field" appearance="fill">
+            <mat-label>Size</mat-label>
+            <mat-select formControlName="Size" required>
+              <mat-option *ngFor="let size of configOptions.sizes" [value]="size">{{size}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div>
+          <div class="flavor-label">Toppings*:</div>
+          <div class="flavor-wrapper">
+            <mat-checkbox *ngFor="let flavor of configOptions.flavors" 
+              (click)="updateConfig(flavor)"
+              [checked]="configuratorForm.value.Flavor?.includes(flavor)">
+              {{flavor | titlecase}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </form>
     </mat-card-content>
-    </mat-card>
+  </mat-card>
+
+  <mat-card class="small-card">
+    <mat-card-header>
+      <mat-card-title>Order Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      
+      <div>Size: <span>{{configuratorForm.value.Size}}</span></div>
+      <div>Crust: <span>{{configuratorForm.value.Crust | titlecase}}</span></div>
+      <div>Toppings: <span>{{toppingCount}}</span></div>
+      <div>Table Number: <span>{{configuratorForm.value.Table_No}}</span></div>
+
+      <div class="card-button">
+        <button mat-raised-button (click)="submitOrder()" [disabled]="configuratorForm.invalid" color="primary">
+          Submit
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>  
+
 </div>
