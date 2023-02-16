@@ -4,6 +4,7 @@ import { Crust } from '../enums/crust';
 import { Flavor } from '../enums/flavor';
 import { Size } from '../enums/size';
 import { map } from 'rxjs';
+import { OrderConfig } from '../interfaces/order-config';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,15 @@ export class OrderService {
 
   getOrders() {
     return this.http.get('https://pizza-api-app.herokuapp.com/api/orders')
+      .pipe(
+        map((data: any) => {
+          return data;
+        })
+      );
+  }
+
+  submitOrder(order: OrderConfig) {
+    return this.http.post('https://pizza-api-app.herokuapp.com/api/orders', order)
       .pipe(
         map((data: any) => {
           return data;

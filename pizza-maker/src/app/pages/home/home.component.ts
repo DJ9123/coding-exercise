@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { OrderService } from 'src/app/services/order.service'
+import { OrderService } from 'src/app/services/order.service';
+import { first } from 'rxjs/operators';
+import { OrderConfig } from 'src/app/interfaces/order-config';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +43,18 @@ export class HomeComponent {
   }
 
   submitOrder(): void {
-    console.log(this.configuratorForm.value);
+    this.orderService.submitOrder(this.configuratorForm.value as OrderConfig)
+      .pipe(first())
+      .subscribe(
+        {
+          next: (v) => {
+            console.log(v);
+          },
+          error: (e) => {
+            console.log(e);
+          }
+        }
+      );
   }
 
 }

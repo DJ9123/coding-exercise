@@ -45,6 +45,7 @@ export class AuthService {
       .pipe(
         map((data: AuthResponse) => {
           if (data.access_token) {
+            localStorage.setItem('access_token', data.access_token);
             this.authSubject.next({ access_token: data.access_token });
             this.router.navigate([this.navigateUrl]);
           }

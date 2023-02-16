@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Components
 import { AppComponent } from './app.component';
@@ -14,6 +14,8 @@ import { NavToolbarComponent } from './components/nav-toolbar/nav-toolbar.compon
 import { LoginComponent } from './pages/login/login.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { HomeComponent } from './pages/home/home.component';
+// Extra
+import { HttpAuthInterceptor } from './interceptors/http-auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,13 @@ import { HomeComponent } from './pages/home/home.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
